@@ -1,0 +1,67 @@
+#server:
+#  port: 8090
+#  servlet:
+#    context-path: /api
+#yangapi:
+#  client:
+#    access-key: 123456
+#    secret-key: 123456
+server:
+  port: 8090
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - AddResponseHeader=source,yangapi
+      routes:
+        - id: api_routes
+          uri: http://localhost:8123
+          predicates:
+            - Path=/api/**
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
+
+dubbo:
+  application:
+    qosEnable: true
+    qosPort: 33333
+    qosAcceptForeignIp: false
+    name: dubbo-springboot-demo-provider
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    register: false
+    id: nacos-registry
+    address: nacos://localhost:8848
+  #    dubbo.application.qosEnable=true
+  #    dubbo.application.qosPort=33333
+  #    dubbo.application.qosAcceptForeignIp=false
+
+#    dubbo.application.qos.enable=true
+#    dubbo.application.qos.port=33333
+#    dubbo.application.qos.accept.foreign.ip=false
+
+  #  ##如果要使用自己创建的命名空间可以使用下面2种方式
+#  #dubbo.registry.address = nacos://127.0.0.1:8848?namespace=5cbb70a5-xxx-xxx-xxx-d43479ae0932
+#  #dubbo.registry.parameters.namespace=5cbb70a5-xxx-xxx-xxx-d43479ae0932
+#
+#  # @Reference version
+#  demo.service.version= 1.0.0
+#
+#  dubbo.application.qosEnable=false
+
+#  dubbo.protocol.name = dubbo
+#  dubbo.protocol.port = -1
+#  demo.service.version=1.0.0
+#  demo.service.name = demoService
+#
+#  dubbo.application.qosEnable=false
+
+
+
+
